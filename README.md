@@ -1,13 +1,13 @@
-# 💸 Expense Tracker - Personal Finance Manager
+# 💰 Income-and-Expense-Manager
 
-[![Platform](https://img.shields.io/badge/platform-Windows-blue)](https://github.com/)
+[![Platform](https://img.shields.io/badge/platform-Windows-blue)](https://github.com/d0xmee/Income-and-Expense-Manager)
 [![Language](https://img.shields.io/badge/language-C%2B%2B%2FCLI-green)](https://docs.microsoft.com/en-us/cpp/dotnet/dotnet-programming-with-cpp-cli)
 [![Framework](https://img.shields.io/badge/framework-.NET%20Windows%20Forms-purple)](https://docs.microsoft.com/en-us/dotnet/desktop/winforms/)
 [![License](https://img.shields.io/badge/license-MIT-yellow)](https://opensource.org/licenses/MIT)
 
-A powerful and elegant desktop application for tracking personal finances. Monitor your income, expenses, and financial health with an intuitive interface, dark/light theme support, and comprehensive filtering capabilities.
+A powerful and elegant desktop application for tracking personal finances. Monitor income, expenses, and financial health with an intuitive interface, dark/light theme support, and comprehensive filtering capabilities.
 
-![Expense Tracker Screenshot](screenshot.png)
+![Income and Expense Manager Screenshot](screenshot.png)
 
 ## ✨ Features
 
@@ -24,17 +24,17 @@ A powerful and elegant desktop application for tracking personal finances. Monit
   - Category-wise statistical breakdown
 
 - **Advanced Filtering & Sorting**
-  - Filter by category (Food, Transport, etc.)
+  - Filter by category
   - Filter by transaction type (Income/Expense)
   - Sort any column by clicking headers
   - Combined filter application
 
 - **User-Friendly Interface**
   - Clean, modern Windows Forms design
-  - Dark/Light theme toggle with persistent preference
+  - Dark/Light theme toggle
   - Double-click to edit any transaction
   - Status bar with operation feedback
-  - Intuitive input validation
+  - Input validation
 
 - **Data Persistence**
   - Automatic saving to `transactions.txt`
@@ -45,8 +45,8 @@ A powerful and elegant desktop application for tracking personal finances. Monit
 
 ### Prerequisites
 
-- Windows operating system (7/8/10/11)
-- [Visual Studio](https://visualstudio.microsoft.com/) 2019 or later with:
+- Windows operating system
+- Visual Studio 2019 or later with:
   - Desktop development with C++ workload
   - .NET desktop development workload
   - C++/CLI support
@@ -55,5 +55,5 @@ A powerful and elegant desktop application for tracking personal finances. Monit
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/expense-tracker.git
-   cd expense-tracker
+   git clone https://github.com/d0xmee/Income-and-Expense-Manager.git
+   cd Income-and-Expense-Manager
