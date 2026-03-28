@@ -24,8 +24,8 @@ namespace ExpenseTrackerApp {
                 return ascending ? idX.CompareTo(idY) : idY.CompareTo(idX);
             }
             else if (col == 2) {
-                double amountX = Convert::ToDouble(textX->Replace(L"руб.", L"")->Trim());
-                double amountY = Convert::ToDouble(textY->Replace(L"руб.", L"")->Trim());
+                double amountX = Convert::ToDouble(textX->Replace(L"в‚Ѕ", L"")->Replace(L"СЂСѓР±.", L"")->Trim());
+                double amountY = Convert::ToDouble(textY->Replace(L"в‚Ѕ", L"")->Replace(L"СЂСѓР±.", L"")->Trim());
                 return ascending ? amountX.CompareTo(amountY) : amountY.CompareTo(amountX);
             }
             else if (col == 5) {
@@ -52,13 +52,13 @@ namespace ExpenseTrackerApp {
         components = gcnew System::ComponentModel::Container();
         manager = new ExpenseManager();
         selectedTransactionId = -1;
-        currentFilterCategory = L"Все категории";
-        currentFilterType = L"Все типы";
+        currentFilterCategory = L"Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё";
+        currentFilterType = L"Р’СЃРµ С‚РёРїС‹";
         lastSortedColumn = -1;
         sortAscending = false;
-        LoadThemeSettings();
+        darkThemeEnabled = true;
         InitializeComponent();
-        ApplyTheme(false);
+        ApplyTheme(true);
         RefreshTransactionList();
         UpdateTotals();
     }
@@ -66,30 +66,6 @@ namespace ExpenseTrackerApp {
     Form1::~Form1() {
         if (components) delete components;
         if (manager) delete manager;
-    }
-
-    void Form1::LoadThemeSettings() {
-        lightBackColor = SystemColors::Control;
-        lightForeColor = SystemColors::ControlText;
-        lightControlBackColor = SystemColors::Window;
-        lightButtonBackColor = SystemColors::Control;
-        lightButtonForeColor = SystemColors::ControlText;
-        lightListViewBackColor = Color::White;
-        lightListViewForeColor = Color::Black;
-        lightTotalColor = Color::Black;
-        lightStatsColor = Color::DarkGray;
-        lightBalanceColor = Color::Green;
-
-        darkBackColor = Color::FromArgb(32, 32, 32);
-        darkForeColor = Color::White;
-        darkControlBackColor = Color::FromArgb(45, 45, 48);
-        darkButtonBackColor = Color::FromArgb(70, 70, 75);
-        darkButtonForeColor = Color::White;
-        darkListViewBackColor = Color::FromArgb(45, 45, 48);
-        darkListViewForeColor = Color::White;
-        darkTotalColor = Color::LightGreen;
-        darkStatsColor = Color::LightGray;
-        darkBalanceColor = Color::Cyan;
     }
 
     void Form1::InitializeComponent() {
@@ -117,125 +93,135 @@ namespace ExpenseTrackerApp {
         this->statusLabel = gcnew ToolStripStatusLabel();
 
         Label^ labelDesc = gcnew Label();
-        labelDesc->Text = L"Описание:";
-        labelDesc->Location = Point(10, 10);
-        labelDesc->Width = 70;
+        labelDesc->Text = L"РћРїРёСЃР°РЅРёРµ:";
+        labelDesc->Location = Point(12, 12);
+        labelDesc->Size = System::Drawing::Size(70, 25);
         labelDesc->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelAmount = gcnew Label();
-        labelAmount->Text = L"Сумма:";
-        labelAmount->Location = Point(10, 40);
-        labelAmount->Width = 70;
+        labelAmount->Text = L"РЎСѓРјРјР°:";
+        labelAmount->Location = Point(12, 42);
+        labelAmount->Size = System::Drawing::Size(70, 25);
         labelAmount->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelCat = gcnew Label();
-        labelCat->Text = L"Категория:";
-        labelCat->Location = Point(10, 70);
-        labelCat->Width = 70;
+        labelCat->Text = L"РљР°С‚РµРіРѕСЂРёСЏ:";
+        labelCat->Location = Point(12, 72);
+        labelCat->Size = System::Drawing::Size(70, 25);
         labelCat->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelType = gcnew Label();
-        labelType->Text = L"Тип:";
-        labelType->Location = Point(10, 100);
-        labelType->Width = 70;
+        labelType->Text = L"РўРёРї:";
+        labelType->Location = Point(12, 102);
+        labelType->Size = System::Drawing::Size(70, 25);
         labelType->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelDate = gcnew Label();
-        labelDate->Text = L"Дата:";
-        labelDate->Location = Point(10, 130);
-        labelDate->Width = 70;
+        labelDate->Text = L"Р”Р°С‚Р°:";
+        labelDate->Location = Point(12, 132);
+        labelDate->Size = System::Drawing::Size(70, 25);
         labelDate->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelFilter = gcnew Label();
-        labelFilter->Text = L"Категория:";
-        labelFilter->Location = Point(320, 10);
-        labelFilter->Width = 70;
+        labelFilter->Text = L"РљР°С‚РµРіРѕСЂРёСЏ:";
+        labelFilter->Location = Point(320, 12);
+        labelFilter->Size = System::Drawing::Size(70, 25);
         labelFilter->TextAlign = ContentAlignment::MiddleRight;
 
         Label^ labelFilterType = gcnew Label();
-        labelFilterType->Text = L"Тип:";
-        labelFilterType->Location = Point(320, 40);
-        labelFilterType->Width = 70;
+        labelFilterType->Text = L"РўРёРї:";
+        labelFilterType->Location = Point(320, 42);
+        labelFilterType->Size = System::Drawing::Size(70, 25);
         labelFilterType->TextAlign = ContentAlignment::MiddleRight;
 
-        this->textBoxDescription->Location = Point(90, 10);
+        this->textBoxDescription->Location = Point(90, 12);
         this->textBoxDescription->Width = 200;
+        this->textBoxDescription->BorderStyle = BorderStyle::FixedSingle;
 
-        this->textBoxAmount->Location = Point(90, 40);
-        this->textBoxAmount->Width = 100;
+        this->textBoxAmount->Location = Point(90, 42);
+        this->textBoxAmount->Width = 120;
+        this->textBoxAmount->BorderStyle = BorderStyle::FixedSingle;
 
-        this->comboBoxCategory->Location = Point(90, 70);
-        this->comboBoxCategory->Width = 120;
+        this->comboBoxCategory->Location = Point(90, 72);
+        this->comboBoxCategory->Width = 140;
         this->comboBoxCategory->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxCategory->Items->Add(L"Еда");
-        this->comboBoxCategory->Items->Add(L"Транспорт");
-        this->comboBoxCategory->Items->Add(L"Развлечения");
-        this->comboBoxCategory->Items->Add(L"Здоровье");
-        this->comboBoxCategory->Items->Add(L"Покупки");
-        this->comboBoxCategory->Items->Add(L"Другое");
+        this->comboBoxCategory->FlatStyle = FlatStyle::Flat;
+        this->comboBoxCategory->Items->Add(L"Р•РґР°");
+        this->comboBoxCategory->Items->Add(L"РўСЂР°РЅСЃРїРѕСЂС‚");
+        this->comboBoxCategory->Items->Add(L"Р Р°Р·РІР»РµС‡РµРЅРёСЏ");
+        this->comboBoxCategory->Items->Add(L"Р—РґРѕСЂРѕРІСЊРµ");
+        this->comboBoxCategory->Items->Add(L"РџРѕРєСѓРїРєРё");
+        this->comboBoxCategory->Items->Add(L"Р”СЂСѓРіРѕРµ");
         this->comboBoxCategory->SelectedIndex = 0;
 
-        this->comboBoxType->Location = Point(90, 100);
-        this->comboBoxType->Width = 120;
+        this->comboBoxType->Location = Point(90, 102);
+        this->comboBoxType->Width = 140;
         this->comboBoxType->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxType->Items->Add(L"Расход");
-        this->comboBoxType->Items->Add(L"Доход");
+        this->comboBoxType->FlatStyle = FlatStyle::Flat;
+        this->comboBoxType->Items->Add(L"Р Р°СЃС…РѕРґ");
+        this->comboBoxType->Items->Add(L"Р”РѕС…РѕРґ");
         this->comboBoxType->SelectedIndex = 0;
 
-        this->dateTimePickerExpense->Location = Point(90, 130);
+        this->dateTimePickerExpense->Location = Point(90, 132);
         this->dateTimePickerExpense->Width = 140;
         this->dateTimePickerExpense->Format = DateTimePickerFormat::Short;
 
-        this->comboBoxFilter->Location = Point(400, 10);
+        this->comboBoxFilter->Location = Point(400, 12);
         this->comboBoxFilter->Width = 150;
         this->comboBoxFilter->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxFilter->Items->Add(L"Все категории");
-        this->comboBoxFilter->Items->Add(L"Еда");
-        this->comboBoxFilter->Items->Add(L"Транспорт");
-        this->comboBoxFilter->Items->Add(L"Развлечения");
-        this->comboBoxFilter->Items->Add(L"Здоровье");
-        this->comboBoxFilter->Items->Add(L"Покупки");
-        this->comboBoxFilter->Items->Add(L"Другое");
+        this->comboBoxFilter->FlatStyle = FlatStyle::Flat;
+        this->comboBoxFilter->Items->Add(L"Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё");
+        this->comboBoxFilter->Items->Add(L"Р•РґР°");
+        this->comboBoxFilter->Items->Add(L"РўСЂР°РЅСЃРїРѕСЂС‚");
+        this->comboBoxFilter->Items->Add(L"Р Р°Р·РІР»РµС‡РµРЅРёСЏ");
+        this->comboBoxFilter->Items->Add(L"Р—РґРѕСЂРѕРІСЊРµ");
+        this->comboBoxFilter->Items->Add(L"РџРѕРєСѓРїРєРё");
+        this->comboBoxFilter->Items->Add(L"Р”СЂСѓРіРѕРµ");
         this->comboBoxFilter->SelectedIndex = 0;
         this->comboBoxFilter->SelectedIndexChanged += gcnew EventHandler(this, &Form1::comboBoxFilter_SelectedIndexChanged);
 
-        this->comboBoxFilterType->Location = Point(400, 40);
+        this->comboBoxFilterType->Location = Point(400, 42);
         this->comboBoxFilterType->Width = 150;
         this->comboBoxFilterType->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxFilterType->Items->Add(L"Все типы");
-        this->comboBoxFilterType->Items->Add(L"Расход");
-        this->comboBoxFilterType->Items->Add(L"Доход");
+        this->comboBoxFilterType->FlatStyle = FlatStyle::Flat;
+        this->comboBoxFilterType->Items->Add(L"Р’СЃРµ С‚РёРїС‹");
+        this->comboBoxFilterType->Items->Add(L"Р Р°СЃС…РѕРґ");
+        this->comboBoxFilterType->Items->Add(L"Р”РѕС…РѕРґ");
         this->comboBoxFilterType->SelectedIndex = 0;
         this->comboBoxFilterType->SelectedIndexChanged += gcnew EventHandler(this, &Form1::comboBoxFilterType_SelectedIndexChanged);
 
-        this->btnAdd->Text = L"Добавить";
+        this->btnAdd->Text = L"Р”РѕР±Р°РІРёС‚СЊ";
         this->btnAdd->Location = Point(90, 170);
-        this->btnAdd->Width = 100;
+        this->btnAdd->Size = System::Drawing::Size(100, 32);
+        this->btnAdd->FlatStyle = FlatStyle::Flat;
         this->btnAdd->Click += gcnew EventHandler(this, &Form1::btnAdd_Click);
 
-        this->btnUpdate->Text = L"Обновить";
+        this->btnUpdate->Text = L"РћР±РЅРѕРІРёС‚СЊ";
         this->btnUpdate->Location = Point(200, 170);
-        this->btnUpdate->Width = 100;
+        this->btnUpdate->Size = System::Drawing::Size(100, 32);
+        this->btnUpdate->FlatStyle = FlatStyle::Flat;
         this->btnUpdate->Click += gcnew EventHandler(this, &Form1::btnUpdate_Click);
 
-        this->btnDelete->Text = L"Удалить";
+        this->btnDelete->Text = L"РЈРґР°Р»РёС‚СЊ";
         this->btnDelete->Location = Point(310, 170);
-        this->btnDelete->Width = 100;
+        this->btnDelete->Size = System::Drawing::Size(100, 32);
+        this->btnDelete->FlatStyle = FlatStyle::Flat;
         this->btnDelete->Click += gcnew EventHandler(this, &Form1::btnDelete_Click);
 
-        this->btnFilter->Text = L"Сбросить фильтр";
+        this->btnFilter->Text = L"РЎР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ";
         this->btnFilter->Location = Point(560, 10);
-        this->btnFilter->Width = 120;
+        this->btnFilter->Size = System::Drawing::Size(110, 28);
+        this->btnFilter->FlatStyle = FlatStyle::Flat;
         this->btnFilter->Click += gcnew EventHandler(this, &Form1::btnFilter_Click);
 
-        this->btnTheme->Text = L"Тёмная тема";
-        this->btnTheme->Location = Point(560, 40);
-        this->btnTheme->Width = 120;
+        this->btnTheme->Text = L"РЎРІРµС‚Р»Р°СЏ С‚РµРјР°";
+        this->btnTheme->Location = Point(560, 42);
+        this->btnTheme->Size = System::Drawing::Size(110, 28);
+        this->btnTheme->FlatStyle = FlatStyle::Flat;
         this->btnTheme->Click += gcnew EventHandler(this, &Form1::btnTheme_Click);
 
-        this->listViewExpenses->Location = Point(10, 210);
-        this->listViewExpenses->Width = 680;
-        this->listViewExpenses->Height = 250;
+        this->listViewExpenses->Location = Point(12, 210);
+        this->listViewExpenses->Size = System::Drawing::Size(660, 250);
         this->listViewExpenses->View = View::Details;
         this->listViewExpenses->FullRowSelect = true;
         this->listViewExpenses->GridLines = true;
@@ -245,36 +231,33 @@ namespace ExpenseTrackerApp {
         this->listViewExpenses->ColumnClick += gcnew ColumnClickEventHandler(this, &Form1::listViewExpenses_ColumnClick);
         this->listViewExpenses->MouseDoubleClick += gcnew MouseEventHandler(this, &Form1::listViewExpenses_MouseDoubleClick);
         this->listViewExpenses->Columns->Add(L"ID", 40, HorizontalAlignment::Left);
-        this->listViewExpenses->Columns->Add(L"Описание", 180, HorizontalAlignment::Left);
-        this->listViewExpenses->Columns->Add(L"Сумма", 100, HorizontalAlignment::Right);
-        this->listViewExpenses->Columns->Add(L"Категория", 100, HorizontalAlignment::Left);
-        this->listViewExpenses->Columns->Add(L"Тип", 80, HorizontalAlignment::Left);
-        this->listViewExpenses->Columns->Add(L"Дата", 120, HorizontalAlignment::Left);
+        this->listViewExpenses->Columns->Add(L"РћРїРёСЃР°РЅРёРµ", 180, HorizontalAlignment::Left);
+        this->listViewExpenses->Columns->Add(L"РЎСѓРјРјР°", 100, HorizontalAlignment::Right);
+        this->listViewExpenses->Columns->Add(L"РљР°С‚РµРіРѕСЂРёСЏ", 100, HorizontalAlignment::Left);
+        this->listViewExpenses->Columns->Add(L"РўРёРї", 80, HorizontalAlignment::Left);
+        this->listViewExpenses->Columns->Add(L"Р”Р°С‚Р°", 120, HorizontalAlignment::Left);
 
-        this->labelTotal->Location = Point(10, 470);
-        this->labelTotal->Width = 200;
-        this->labelTotal->Font = gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Bold);
+        this->labelTotal->Location = Point(12, 470);
+        this->labelTotal->Size = System::Drawing::Size(200, 25);
+        this->labelTotal->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, FontStyle::Bold);
 
         this->labelIncome->Location = Point(220, 470);
-        this->labelIncome->Width = 150;
-        this->labelIncome->Font = gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular);
+        this->labelIncome->Size = System::Drawing::Size(150, 25);
 
         this->labelExpense->Location = Point(380, 470);
-        this->labelExpense->Width = 150;
-        this->labelExpense->Font = gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular);
+        this->labelExpense->Size = System::Drawing::Size(150, 25);
 
         this->labelBalance->Location = Point(540, 470);
-        this->labelBalance->Width = 150;
-        this->labelBalance->Font = gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Bold);
+        this->labelBalance->Size = System::Drawing::Size(150, 25);
+        this->labelBalance->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, FontStyle::Bold);
 
-        this->labelStats->Location = Point(10, 495);
-        this->labelStats->Width = 680;
-        this->labelStats->Height = 40;
-        this->labelStats->Font = gcnew System::Drawing::Font(L"Arial", 8, System::Drawing::FontStyle::Regular);
+        this->labelStats->Location = Point(12, 500);
+        this->labelStats->Size = System::Drawing::Size(660, 40);
+        this->labelStats->Font = gcnew System::Drawing::Font(L"Segoe UI", 8);
 
         this->statusStrip->Items->Add(this->statusLabel);
-        this->statusStrip->Location = Point(0, 540);
-        this->statusStrip->Width = 700;
+        this->statusStrip->Location = Point(0, 545);
+        this->statusStrip->Size = System::Drawing::Size(684, 22);
 
         this->Controls->Add(labelDesc);
         this->Controls->Add(this->textBoxDescription);
@@ -303,7 +286,7 @@ namespace ExpenseTrackerApp {
         this->Controls->Add(this->labelStats);
         this->Controls->Add(this->statusStrip);
 
-        this->ClientSize = System::Drawing::Size(700, 565);
+        this->ClientSize = System::Drawing::Size(684, 567);
         this->Text = L"Expense Tracker";
         this->StartPosition = FormStartPosition::CenterScreen;
         this->ResumeLayout(false);
@@ -311,55 +294,60 @@ namespace ExpenseTrackerApp {
     }
 
     void Form1::ApplyTheme(bool dark) {
-        Color backColor = dark ? darkBackColor : lightBackColor;
-        Color foreColor = dark ? darkForeColor : lightForeColor;
-        Color controlBackColor = dark ? darkControlBackColor : lightControlBackColor;
-        Color buttonBackColor = dark ? darkButtonBackColor : lightButtonBackColor;
-        Color buttonForeColor = dark ? darkButtonForeColor : lightButtonForeColor;
-        Color listViewBackColor = dark ? darkListViewBackColor : lightListViewBackColor;
-        Color listViewForeColor = dark ? darkListViewForeColor : lightListViewForeColor;
-        Color totalColor = dark ? darkTotalColor : lightTotalColor;
-        Color statsColor = dark ? darkStatsColor : lightStatsColor;
-        Color balanceColor = dark ? darkBalanceColor : lightBalanceColor;
+        Color backColor, foreColor, controlBackColor, buttonBackColor;
+
+        if (dark) {
+            backColor = Color::FromArgb(32, 32, 32);
+            foreColor = Color::White;
+            controlBackColor = Color::FromArgb(45, 45, 48);
+            buttonBackColor = Color::FromArgb(70, 70, 75);
+            this->btnTheme->Text = L"РЎРІРµС‚Р»Р°СЏ С‚РµРјР°";
+        }
+        else {
+            backColor = Color::FromArgb(240, 240, 240);
+            foreColor = Color::FromArgb(32, 32, 32);
+            controlBackColor = Color::White;
+            buttonBackColor = Color::FromArgb(230, 230, 230);
+            this->btnTheme->Text = L"РўРµРјРЅР°СЏ С‚РµРјР°";
+        }
 
         this->BackColor = backColor;
         this->ForeColor = foreColor;
 
         for each (Control ^ control in this->Controls) {
-            if (dynamic_cast<Label^>(control) &&
-                control != labelTotal &&
-                control != labelIncome &&
-                control != labelExpense &&
-                control != labelBalance &&
-                control != labelStats) {
+            if (dynamic_cast<Label^>(control) && control != labelTotal && control != labelIncome &&
+                control != labelExpense && control != labelBalance && control != labelStats) {
                 control->ForeColor = foreColor;
                 control->BackColor = backColor;
             }
-            else if (dynamic_cast<TextBox^>(control) ||
-                dynamic_cast<ComboBox^>(control) ||
-                dynamic_cast<DateTimePicker^>(control)) {
+            else if (dynamic_cast<TextBox^>(control) || dynamic_cast<ComboBox^>(control) || dynamic_cast<DateTimePicker^>(control)) {
                 control->BackColor = controlBackColor;
                 control->ForeColor = foreColor;
+                if (dynamic_cast<ComboBox^>(control)) {
+                    safe_cast<ComboBox^>(control)->FlatStyle = FlatStyle::Flat;
+                }
+                if (dynamic_cast<TextBox^>(control)) {
+                    safe_cast<TextBox^>(control)->BorderStyle = BorderStyle::FixedSingle;
+                }
             }
             else if (dynamic_cast<Button^>(control)) {
                 control->BackColor = buttonBackColor;
-                control->ForeColor = buttonForeColor;
+                control->ForeColor = foreColor;
+                safe_cast<Button^>(control)->FlatStyle = FlatStyle::Flat;
             }
             else if (dynamic_cast<ListView^>(control)) {
-                control->BackColor = listViewBackColor;
-                control->ForeColor = listViewForeColor;
+                control->BackColor = controlBackColor;
+                control->ForeColor = foreColor;
             }
         }
 
-        this->statusStrip->BackColor = backColor;
+        this->statusStrip->BackColor = buttonBackColor;
         this->statusStrip->ForeColor = foreColor;
         this->statusLabel->ForeColor = foreColor;
 
-        this->labelTotal->ForeColor = totalColor;
-        this->labelIncome->ForeColor = Color::Green;
-        this->labelExpense->ForeColor = Color::Red;
-        this->labelBalance->ForeColor = balanceColor;
-        this->labelStats->ForeColor = statsColor;
+        this->labelTotal->ForeColor = foreColor;
+        this->labelBalance->ForeColor = foreColor;
+        this->labelStats->ForeColor = foreColor;
     }
 
     void Form1::btnAdd_Click(Object^ sender, EventArgs^ e) {
@@ -368,14 +356,14 @@ namespace ExpenseTrackerApp {
             String^ amtStr = textBoxAmount->Text;
 
             if (String::IsNullOrWhiteSpace(desc) || String::IsNullOrWhiteSpace(amtStr)) {
-                MessageBox::Show(L"Заполните все поля!", L"Ошибка",
+                MessageBox::Show(L"Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!", L"РћС€РёР±РєР°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
 
             double amt = Double::Parse(amtStr);
             if (amt <= 0) {
-                MessageBox::Show(L"Сумма должна быть > 0!", L"Ошибка",
+                MessageBox::Show(L"РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ > 0!", L"РћС€РёР±РєР°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
@@ -395,26 +383,26 @@ namespace ExpenseTrackerApp {
 
             RefreshTransactionList();
             UpdateTotals();
-            statusLabel->Text = L"Запись успешно добавлена";
+            statusLabel->Text = L"Р—Р°РїРёСЃСЊ СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅР°";
         }
         catch (FormatException^) {
-            MessageBox::Show(L"Введите корректную сумму!", L"Ошибка",
+            MessageBox::Show(L"Р’РІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅСѓСЋ СЃСѓРјРјСѓ!", L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         catch (Exception^ ex) {
-            MessageBox::Show(L"Ошибка: " + ex->Message, L"Ошибка",
+            MessageBox::Show(L"РћС€РёР±РєР°: " + ex->Message, L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
 
     void Form1::btnDelete_Click(Object^ sender, EventArgs^ e) {
         if (listViewExpenses->SelectedItems->Count == 0) {
-            MessageBox::Show(L"Выберите запись для удаления!", L"Ошибка",
+            MessageBox::Show(L"Р’С‹Р±РµСЂРёС‚Рµ Р·Р°РїРёСЃСЊ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ!", L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Warning);
             return;
         }
 
-        if (MessageBox::Show(L"Вы уверены, что хотите удалить выбранную запись?", L"Подтверждение удаления",
+        if (MessageBox::Show(L"Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚Сѓ Р·Р°РїРёСЃСЊ?", L"РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ СѓРґР°Р»РµРЅРёСЏ",
             MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes) {
             int id = Convert::ToInt32(listViewExpenses->SelectedItems[0]->SubItems[0]->Text);
             manager->deleteTransaction(id);
@@ -423,13 +411,13 @@ namespace ExpenseTrackerApp {
             selectedTransactionId = -1;
             textBoxDescription->Clear();
             textBoxAmount->Clear();
-            statusLabel->Text = L"Запись успешно удалена";
+            statusLabel->Text = L"Р—Р°РїРёСЃСЊ СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР°";
         }
     }
 
     void Form1::btnUpdate_Click(Object^ sender, EventArgs^ e) {
         if (selectedTransactionId == -1) {
-            MessageBox::Show(L"Выберите запись для обновления!", L"Ошибка",
+            MessageBox::Show(L"Р’С‹Р±РµСЂРёС‚Рµ Р·Р°РїРёСЃСЊ РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ!", L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Warning);
             return;
         }
@@ -439,14 +427,14 @@ namespace ExpenseTrackerApp {
             String^ amtStr = textBoxAmount->Text;
 
             if (String::IsNullOrWhiteSpace(desc) || String::IsNullOrWhiteSpace(amtStr)) {
-                MessageBox::Show(L"Заполните все поля!", L"Ошибка",
+                MessageBox::Show(L"Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!", L"РћС€РёР±РєР°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
 
             double amt = Double::Parse(amtStr);
             if (amt <= 0) {
-                MessageBox::Show(L"Сумма должна быть > 0!", L"Ошибка",
+                MessageBox::Show(L"РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ > 0!", L"РћС€РёР±РєР°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
@@ -465,14 +453,14 @@ namespace ExpenseTrackerApp {
             textBoxAmount->Clear();
             comboBoxCategory->SelectedIndex = 0;
             comboBoxType->SelectedIndex = 0;
-            statusLabel->Text = L"Запись успешно обновлена";
+            statusLabel->Text = L"Р—Р°РїРёСЃСЊ СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»РµРЅР°";
         }
         catch (FormatException^) {
-            MessageBox::Show(L"Введите корректную сумму!", L"Ошибка",
+            MessageBox::Show(L"Р’РІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅСѓСЋ СЃСѓРјРјСѓ!", L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         catch (Exception^ ex) {
-            MessageBox::Show(L"Ошибка: " + ex->Message, L"Ошибка",
+            MessageBox::Show(L"РћС€РёР±РєР°: " + ex->Message, L"РћС€РёР±РєР°",
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
@@ -480,18 +468,16 @@ namespace ExpenseTrackerApp {
     void Form1::btnFilter_Click(Object^ sender, EventArgs^ e) {
         comboBoxFilter->SelectedIndex = 0;
         comboBoxFilterType->SelectedIndex = 0;
-        currentFilterCategory = L"Все категории";
-        currentFilterType = L"Все типы";
+        currentFilterCategory = L"Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё";
+        currentFilterType = L"Р’СЃРµ С‚РёРїС‹";
         RefreshTransactionList();
         UpdateTotals();
-        statusLabel->Text = L"Фильтры сброшены";
+        statusLabel->Text = L"Р¤РёР»СЊС‚СЂС‹ СЃР±СЂРѕС€РµРЅС‹";
     }
 
     void Form1::btnTheme_Click(Object^ sender, EventArgs^ e) {
         darkThemeEnabled = !darkThemeEnabled;
         ApplyTheme(darkThemeEnabled);
-        btnTheme->Text = darkThemeEnabled ? L"Светлая тема" : L"Тёмная тема";
-        statusLabel->Text = darkThemeEnabled ? L"Включена тёмная тема" : L"Включена светлая тема";
     }
 
     void Form1::comboBoxFilter_SelectedIndexChanged(Object^ sender, EventArgs^ e) {
@@ -511,7 +497,7 @@ namespace ExpenseTrackerApp {
             ListViewItem^ selectedItem = listViewExpenses->SelectedItems[0];
             selectedTransactionId = Convert::ToInt32(selectedItem->SubItems[0]->Text);
             textBoxDescription->Text = selectedItem->SubItems[1]->Text;
-            textBoxAmount->Text = selectedItem->SubItems[2]->Text->Replace(L"руб.", L"")->Trim();
+            textBoxAmount->Text = selectedItem->SubItems[2]->Text->Replace(L"в‚Ѕ", L"")->Replace(L"СЂСѓР±.", L"")->Trim();
 
             String^ categoryText = selectedItem->SubItems[3]->Text;
             for (int i = 0; i < comboBoxCategory->Items->Count; i++) {
@@ -536,19 +522,19 @@ namespace ExpenseTrackerApp {
             ListViewItem^ selectedItem = listViewExpenses->SelectedItems[0];
             int id = Convert::ToInt32(selectedItem->SubItems[0]->Text);
             String^ description = selectedItem->SubItems[1]->Text;
-            String^ amount = selectedItem->SubItems[2]->Text->Replace(L"руб.", L"")->Trim();
+            String^ amount = selectedItem->SubItems[2]->Text->Replace(L"в‚Ѕ", L"")->Replace(L"СЂСѓР±.", L"")->Trim();
             String^ categoryText = selectedItem->SubItems[3]->Text;
             String^ typeText = selectedItem->SubItems[4]->Text;
 
             Category cat = Category::OTHER;
-            if (categoryText == L"Еда") cat = Category::FOOD;
-            else if (categoryText == L"Транспорт") cat = Category::TRANSPORT;
-            else if (categoryText == L"Развлечения") cat = Category::ENTERTAINMENT;
-            else if (categoryText == L"Здоровье") cat = Category::HEALTH;
-            else if (categoryText == L"Покупки") cat = Category::SHOPPING;
+            if (categoryText == L"Р•РґР°") cat = Category::FOOD;
+            else if (categoryText == L"РўСЂР°РЅСЃРїРѕСЂС‚") cat = Category::TRANSPORT;
+            else if (categoryText == L"Р Р°Р·РІР»РµС‡РµРЅРёСЏ") cat = Category::ENTERTAINMENT;
+            else if (categoryText == L"Р—РґРѕСЂРѕРІСЊРµ") cat = Category::HEALTH;
+            else if (categoryText == L"РџРѕРєСѓРїРєРё") cat = Category::SHOPPING;
 
             TransactionType type = TransactionType::EXPENSE;
-            if (typeText == L"Доход") type = TransactionType::INCOME;
+            if (typeText == L"Р”РѕС…РѕРґ") type = TransactionType::INCOME;
 
             EditForm^ editForm = gcnew EditForm();
             editForm->SetData(description, amount, cat, type);
@@ -561,14 +547,14 @@ namespace ExpenseTrackerApp {
                     TransactionType newType = editForm->GetTransactionType();
 
                     if (String::IsNullOrWhiteSpace(newDesc) || String::IsNullOrWhiteSpace(newAmtStr)) {
-                        MessageBox::Show(L"Заполните все поля!", L"Ошибка",
+                        MessageBox::Show(L"Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!", L"РћС€РёР±РєР°",
                             MessageBoxButtons::OK, MessageBoxIcon::Warning);
                         return;
                     }
 
                     double newAmt = Double::Parse(newAmtStr);
                     if (newAmt <= 0) {
-                        MessageBox::Show(L"Сумма должна быть > 0!", L"Ошибка",
+                        MessageBox::Show(L"РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ > 0!", L"РћС€РёР±РєР°",
                             MessageBoxButtons::OK, MessageBoxIcon::Warning);
                         return;
                     }
@@ -583,14 +569,14 @@ namespace ExpenseTrackerApp {
                     selectedTransactionId = -1;
                     textBoxDescription->Clear();
                     textBoxAmount->Clear();
-                    statusLabel->Text = L"Запись успешно обновлена";
+                    statusLabel->Text = L"Р—Р°РїРёСЃСЊ СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»РµРЅР°";
                 }
                 catch (FormatException^) {
-                    MessageBox::Show(L"Введите корректную сумму!", L"Ошибка",
+                    MessageBox::Show(L"Р’РІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅСѓСЋ СЃСѓРјРјСѓ!", L"РћС€РёР±РєР°",
                         MessageBoxButtons::OK, MessageBoxIcon::Error);
                 }
                 catch (Exception^ ex) {
-                    MessageBox::Show(L"Ошибка: " + ex->Message, L"Ошибка",
+                    MessageBox::Show(L"РћС€РёР±РєР°: " + ex->Message, L"РћС€РёР±РєР°",
                         MessageBoxButtons::OK, MessageBoxIcon::Error);
                 }
             }
@@ -603,7 +589,7 @@ namespace ExpenseTrackerApp {
         }
         else {
             lastSortedColumn = e->Column;
-            sortAscending = false;
+            sortAscending = true;
         }
 
         this->listViewExpenses->ListViewItemSorter = gcnew ListViewItemComparer(e->Column, sortAscending);
@@ -618,22 +604,22 @@ namespace ExpenseTrackerApp {
             String^ cat = gcnew String(manager->categoryToDisplayName(t.getCategory()).c_str());
             String^ type = gcnew String(manager->typeToDisplayName(t.getType()).c_str());
 
-            bool categoryMatch = currentFilterCategory == L"Все категории" || currentFilterCategory == cat;
-            bool typeMatch = currentFilterType == L"Все типы" || currentFilterType == type;
+            bool categoryMatch = currentFilterCategory == L"Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё" || currentFilterCategory == cat;
+            bool typeMatch = currentFilterType == L"Р’СЃРµ С‚РёРїС‹" || currentFilterType == type;
 
             if (categoryMatch && typeMatch) {
                 ListViewItem^ item = gcnew ListViewItem(t.getId().ToString());
                 item->SubItems->Add(gcnew String(t.getDescription().c_str()));
-                item->SubItems->Add(FormatAmount(t.getAmount()) + L" руб.");
+                item->SubItems->Add(FormatAmount(t.getAmount()) + L" в‚Ѕ");
                 item->SubItems->Add(cat);
                 item->SubItems->Add(type);
                 item->SubItems->Add(FormatDate(t.getDate()));
 
                 if (t.getType() == TransactionType::INCOME) {
-                    item->ForeColor = Color::Green;
+                    item->ForeColor = Color::FromArgb(76, 175, 80);
                 }
                 else {
-                    item->ForeColor = Color::Red;
+                    item->ForeColor = Color::FromArgb(244, 67, 54);
                 }
 
                 listViewExpenses->Items->Add(item);
@@ -655,8 +641,8 @@ namespace ExpenseTrackerApp {
             String^ cat = gcnew String(manager->categoryToDisplayName(t.getCategory()).c_str());
             String^ type = gcnew String(manager->typeToDisplayName(t.getType()).c_str());
 
-            bool categoryMatch = currentFilterCategory == L"Все категории" || currentFilterCategory == cat;
-            bool typeMatch = currentFilterType == L"Все типы" || currentFilterType == type;
+            bool categoryMatch = currentFilterCategory == L"Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё" || currentFilterCategory == cat;
+            bool typeMatch = currentFilterType == L"Р’СЃРµ С‚РёРїС‹" || currentFilterType == type;
 
             if (categoryMatch && typeMatch) {
                 if (t.getType() == TransactionType::INCOME) {
@@ -670,109 +656,65 @@ namespace ExpenseTrackerApp {
 
         double balance = totalIncome - totalExpense;
 
-        labelTotal->Text = String::Format(L"Всего записей: {0}", transactions.size());
-        labelIncome->Text = String::Format(L"Доходы: {0:F2} руб.", totalIncome);
-        labelExpense->Text = String::Format(L"Расходы: {0:F2} руб.", totalExpense);
-        labelBalance->Text = String::Format(L"Баланс: {0:F2} руб.", balance);
+        labelTotal->Text = String::Format(L"Р’СЃРµРіРѕ Р·Р°РїРёСЃРµР№: {0}", transactions.size());
+        labelIncome->Text = String::Format(L"Р”РѕС…РѕРґС‹: {0:F2} в‚Ѕ", totalIncome);
+        labelExpense->Text = String::Format(L"Р Р°СЃС…РѕРґС‹: {0:F2} в‚Ѕ", totalExpense);
+        labelBalance->Text = String::Format(L"Р‘Р°Р»Р°РЅСЃ: {0:F2} в‚Ѕ", balance);
 
         if (balance >= 0) {
-            labelBalance->ForeColor = darkThemeEnabled ? Color::Cyan : Color::Green;
+            labelBalance->ForeColor = Color::FromArgb(76, 175, 80);
         }
         else {
-            labelBalance->ForeColor = Color::Red;
+            labelBalance->ForeColor = Color::FromArgb(244, 67, 54);
         }
+
+        cli::array<String^>^ categories = gcnew cli::array<String^> { L"Р•РґР°", L"РўСЂР°РЅСЃРїРѕСЂС‚", L"Р Р°Р·РІР»РµС‡РµРЅРёСЏ", L"Р—РґРѕСЂРѕРІСЊРµ", L"РџРѕРєСѓРїРєРё", L"Р”СЂСѓРіРѕРµ" };
 
         Dictionary<String^, double>^ categoryIncome = gcnew Dictionary<String^, double>();
         Dictionary<String^, double>^ categoryExpense = gcnew Dictionary<String^, double>();
 
-        // Инициализация словарей
-        categoryIncome->Add(L"Еда", 0);
-        categoryIncome->Add(L"Транспорт", 0);
-        categoryIncome->Add(L"Развлечения", 0);
-        categoryIncome->Add(L"Здоровье", 0);
-        categoryIncome->Add(L"Покупки", 0);
-        categoryIncome->Add(L"Другое", 0);
-
-        categoryExpense->Add(L"Еда", 0);
-        categoryExpense->Add(L"Транспорт", 0);
-        categoryExpense->Add(L"Развлечения", 0);
-        categoryExpense->Add(L"Здоровье", 0);
-        categoryExpense->Add(L"Покупки", 0);
-        categoryExpense->Add(L"Другое", 0);
+        for each (String ^ cat in categories) {
+            categoryIncome->Add(cat, 0.0);
+            categoryExpense->Add(cat, 0.0);
+        }
 
         for (const auto& t : transactions) {
             String^ cat = gcnew String(manager->categoryToDisplayName(t.getCategory()).c_str());
             if (t.getType() == TransactionType::INCOME) {
-                categoryIncome[cat] = categoryIncome[cat] + t.getAmount();
+                double val = categoryIncome[cat];
+                categoryIncome[cat] = val + t.getAmount();
             }
             else {
-                categoryExpense[cat] = categoryExpense[cat] + t.getAmount();
+                double val = categoryExpense[cat];
+                categoryExpense[cat] = val + t.getAmount();
             }
         }
 
-        String^ statsText = L"Доходы: ";
+        String^ statsText = L"Р”РѕС…РѕРґС‹: ";
         bool first = true;
 
-        if (categoryIncome[L"Еда"] > 0) {
-            statsText += String::Format(L"Еда: {0:F2} руб.", categoryIncome[L"Еда"]);
-            first = false;
-        }
-        if (categoryIncome[L"Транспорт"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Транспорт: {0:F2} руб.", categoryIncome[L"Транспорт"]);
-            first = false;
-        }
-        if (categoryIncome[L"Развлечения"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Развлечения: {0:F2} руб.", categoryIncome[L"Развлечения"]);
-            first = false;
-        }
-        if (categoryIncome[L"Здоровье"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Здоровье: {0:F2} руб.", categoryIncome[L"Здоровье"]);
-            first = false;
-        }
-        if (categoryIncome[L"Покупки"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Покупки: {0:F2} руб.", categoryIncome[L"Покупки"]);
-            first = false;
-        }
-        if (categoryIncome[L"Другое"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Другое: {0:F2} руб.", categoryIncome[L"Другое"]);
+        for each (String ^ cat in categories) {
+            if (categoryIncome[cat] > 0) {
+                if (!first) statsText += L" | ";
+                statsText += String::Format(L"{0}: {1:F2} в‚Ѕ", cat, categoryIncome[cat]);
+                first = false;
+            }
         }
 
-        statsText += L"    Расходы: ";
+        if (first) statsText += L"РЅРµС‚";
+
+        statsText += L"    Р Р°СЃС…РѕРґС‹: ";
         first = true;
 
-        if (categoryExpense[L"Еда"] > 0) {
-            statsText += String::Format(L"Еда: {0:F2} руб.", categoryExpense[L"Еда"]);
-            first = false;
+        for each (String ^ cat in categories) {
+            if (categoryExpense[cat] > 0) {
+                if (!first) statsText += L" | ";
+                statsText += String::Format(L"{0}: {1:F2} в‚Ѕ", cat, categoryExpense[cat]);
+                first = false;
+            }
         }
-        if (categoryExpense[L"Транспорт"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Транспорт: {0:F2} руб.", categoryExpense[L"Транспорт"]);
-            first = false;
-        }
-        if (categoryExpense[L"Развлечения"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Развлечения: {0:F2} руб.", categoryExpense[L"Развлечения"]);
-            first = false;
-        }
-        if (categoryExpense[L"Здоровье"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Здоровье: {0:F2} руб.", categoryExpense[L"Здоровье"]);
-            first = false;
-        }
-        if (categoryExpense[L"Покупки"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Покупки: {0:F2} руб.", categoryExpense[L"Покупки"]);
-            first = false;
-        }
-        if (categoryExpense[L"Другое"] > 0) {
-            if (!first) statsText += L" | ";
-            statsText += String::Format(L"Другое: {0:F2} руб.", categoryExpense[L"Другое"]);
-        }
+
+        if (first) statsText += L"РЅРµС‚";
 
         labelStats->Text = statsText;
     }
