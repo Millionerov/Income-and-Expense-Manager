@@ -40,32 +40,9 @@ namespace ExpenseTrackerApp {
         StatusStrip^ statusStrip;
         ToolStripStatusLabel^ statusLabel;
 
-        Color lightBackColor;
-        Color lightForeColor;
-        Color lightControlBackColor;
-        Color lightButtonBackColor;
-        Color lightButtonForeColor;
-        Color lightListViewBackColor;
-        Color lightListViewForeColor;
-        Color lightTotalColor;
-        Color lightStatsColor;
-        Color lightBalanceColor;
-
-        Color darkBackColor;
-        Color darkForeColor;
-        Color darkControlBackColor;
-        Color darkButtonBackColor;
-        Color darkButtonForeColor;
-        Color darkListViewBackColor;
-        Color darkListViewForeColor;
-        Color darkTotalColor;
-        Color darkStatsColor;
-        Color darkBalanceColor;
-
         bool darkThemeEnabled;
 
         void InitializeComponent();
-        void LoadThemeSettings();
         void RefreshTransactionList();
         void UpdateTotals();
         String^ FormatDate(time_t time);
