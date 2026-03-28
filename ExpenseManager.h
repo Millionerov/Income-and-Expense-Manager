@@ -91,18 +91,18 @@ public:
 
     string categoryToDisplayName(Category cat) {
         switch (cat) {
-        case Category::FOOD: return "Еда";
-        case Category::TRANSPORT: return "Транспорт";
-        case Category::ENTERTAINMENT: return "Развлечения";
-        case Category::HEALTH: return "Здоровье";
-        case Category::SHOPPING: return "Покупки";
-        case Category::OTHER: return "Другое";
-        default: return "Другое";
+        case Category::FOOD: return "Р•РґР°";
+        case Category::TRANSPORT: return "РўСЂР°РЅСЃРїРѕСЂС‚";
+        case Category::ENTERTAINMENT: return "Р Р°Р·РІР»РµС‡РµРЅРёСЏ";
+        case Category::HEALTH: return "Р—РґРѕСЂРѕРІСЊРµ";
+        case Category::SHOPPING: return "РџРѕРєСѓРїРєРё";
+        case Category::OTHER: return "Р”СЂСѓРіРѕРµ";
+        default: return "Р”СЂСѓРіРѕРµ";
         }
     }
 
     string typeToDisplayName(TransactionType type) {
-        return type == TransactionType::INCOME ? "Доход" : "Расход";
+        return type == TransactionType::INCOME ? "Р”РѕС…РѕРґ" : "Р Р°СЃС…РѕРґ";
     }
 
     void addTransaction(const string& description, double amount, Category category, TransactionType type, time_t date) {
