@@ -4,65 +4,90 @@ namespace ExpenseTrackerApp {
     void EditForm::InitializeComponent() {
         this->SuspendLayout();
 
+        this->BackColor = Color::FromArgb(32, 32, 32);
+        this->ForeColor = Color::White;
+
         this->labelDesc = gcnew Label();
-        this->labelDesc->Text = L"Îïèñàíèå:";
+        this->labelDesc->Text = L"ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ:";
         this->labelDesc->Location = Point(10, 20);
-        this->labelDesc->Width = 80;
+        this->labelDesc->Size = System::Drawing::Size(80, 25);
+        this->labelDesc->ForeColor = Color::White;
 
         this->textBoxEditDescription = gcnew TextBox();
         this->textBoxEditDescription->Location = Point(100, 20);
         this->textBoxEditDescription->Width = 200;
+        this->textBoxEditDescription->BackColor = Color::FromArgb(45, 45, 48);
+        this->textBoxEditDescription->ForeColor = Color::White;
+        this->textBoxEditDescription->BorderStyle = BorderStyle::FixedSingle;
 
         this->labelAmount = gcnew Label();
-        this->labelAmount->Text = L"Ñóììà:";
+        this->labelAmount->Text = L"Ð¡ÑƒÐ¼Ð¼Ð°:";
         this->labelAmount->Location = Point(10, 60);
-        this->labelAmount->Width = 80;
+        this->labelAmount->Size = System::Drawing::Size(80, 25);
+        this->labelAmount->ForeColor = Color::White;
 
         this->textBoxEditAmount = gcnew TextBox();
         this->textBoxEditAmount->Location = Point(100, 60);
-        this->textBoxEditAmount->Width = 100;
+        this->textBoxEditAmount->Width = 120;
+        this->textBoxEditAmount->BackColor = Color::FromArgb(45, 45, 48);
+        this->textBoxEditAmount->ForeColor = Color::White;
+        this->textBoxEditAmount->BorderStyle = BorderStyle::FixedSingle;
 
         this->labelCat = gcnew Label();
-        this->labelCat->Text = L"Êàòåãîðèÿ:";
+        this->labelCat->Text = L"ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ:";
         this->labelCat->Location = Point(10, 100);
-        this->labelCat->Width = 80;
+        this->labelCat->Size = System::Drawing::Size(80, 25);
+        this->labelCat->ForeColor = Color::White;
 
         this->comboBoxEditCategory = gcnew ComboBox();
         this->comboBoxEditCategory->Location = Point(100, 100);
-        this->comboBoxEditCategory->Width = 120;
+        this->comboBoxEditCategory->Width = 140;
         this->comboBoxEditCategory->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxEditCategory->Items->Add(L"Åäà");
-        this->comboBoxEditCategory->Items->Add(L"Òðàíñïîðò");
-        this->comboBoxEditCategory->Items->Add(L"Ðàçâëå÷åíèÿ");
-        this->comboBoxEditCategory->Items->Add(L"Çäîðîâüå");
-        this->comboBoxEditCategory->Items->Add(L"Ïîêóïêè");
-        this->comboBoxEditCategory->Items->Add(L"Äðóãîå");
+        this->comboBoxEditCategory->BackColor = Color::FromArgb(45, 45, 48);
+        this->comboBoxEditCategory->ForeColor = Color::White;
+        this->comboBoxEditCategory->FlatStyle = FlatStyle::Flat;
+        this->comboBoxEditCategory->Items->Add(L"Ð•Ð´Ð°");
+        this->comboBoxEditCategory->Items->Add(L"Ð¢Ñ€Ð°Ð½ÑÐ¿Ð¾Ñ€Ñ‚");
+        this->comboBoxEditCategory->Items->Add(L"Ð Ð°Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ");
+        this->comboBoxEditCategory->Items->Add(L"Ð—Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ");
+        this->comboBoxEditCategory->Items->Add(L"ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ¸");
+        this->comboBoxEditCategory->Items->Add(L"Ð”Ñ€ÑƒÐ³Ð¾Ðµ");
         this->comboBoxEditCategory->SelectedIndex = 0;
 
         this->labelType = gcnew Label();
-        this->labelType->Text = L"Òèï:";
+        this->labelType->Text = L"Ð¢Ð¸Ð¿:";
         this->labelType->Location = Point(10, 140);
-        this->labelType->Width = 80;
+        this->labelType->Size = System::Drawing::Size(80, 25);
+        this->labelType->ForeColor = Color::White;
 
         this->comboBoxEditType = gcnew ComboBox();
         this->comboBoxEditType->Location = Point(100, 140);
-        this->comboBoxEditType->Width = 120;
+        this->comboBoxEditType->Width = 140;
         this->comboBoxEditType->DropDownStyle = ComboBoxStyle::DropDownList;
-        this->comboBoxEditType->Items->Add(L"Ðàñõîä");
-        this->comboBoxEditType->Items->Add(L"Äîõîä");
+        this->comboBoxEditType->BackColor = Color::FromArgb(45, 45, 48);
+        this->comboBoxEditType->ForeColor = Color::White;
+        this->comboBoxEditType->FlatStyle = FlatStyle::Flat;
+        this->comboBoxEditType->Items->Add(L"Ð Ð°ÑÑ…Ð¾Ð´");
+        this->comboBoxEditType->Items->Add(L"Ð”Ð¾Ñ…Ð¾Ð´");
         this->comboBoxEditType->SelectedIndex = 0;
 
         this->btnEditOK = gcnew Button();
         this->btnEditOK->Text = L"OK";
-        this->btnEditOK->Location = Point(50, 180);
-        this->btnEditOK->Width = 80;
+        this->btnEditOK->Location = Point(50, 185);
+        this->btnEditOK->Size = System::Drawing::Size(80, 32);
+        this->btnEditOK->FlatStyle = FlatStyle::Flat;
+        this->btnEditOK->BackColor = Color::FromArgb(70, 70, 75);
+        this->btnEditOK->ForeColor = Color::White;
         this->btnEditOK->DialogResult = System::Windows::Forms::DialogResult::OK;
         this->btnEditOK->Click += gcnew EventHandler(this, &EditForm::btnEditOK_Click);
 
         this->btnEditCancel = gcnew Button();
-        this->btnEditCancel->Text = L"Îòìåíà";
-        this->btnEditCancel->Location = Point(150, 180);
-        this->btnEditCancel->Width = 80;
+        this->btnEditCancel->Text = L"ÐžÑ‚Ð¼ÐµÐ½Ð°";
+        this->btnEditCancel->Location = Point(150, 185);
+        this->btnEditCancel->Size = System::Drawing::Size(80, 32);
+        this->btnEditCancel->FlatStyle = FlatStyle::Flat;
+        this->btnEditCancel->BackColor = Color::FromArgb(70, 70, 75);
+        this->btnEditCancel->ForeColor = Color::White;
         this->btnEditCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
         this->btnEditCancel->Click += gcnew EventHandler(this, &EditForm::btnEditCancel_Click);
 
@@ -78,13 +103,13 @@ namespace ExpenseTrackerApp {
         this->Controls->Add(this->btnEditCancel);
 
         this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
-        this->Text = L"Ðåäàêòèðîâàòü çàïèñü";
+        this->Text = L"Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð·Ð°Ð¿Ð¸ÑÑŒ";
         this->StartPosition = FormStartPosition::CenterParent;
-        this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
         this->MaximizeBox = false;
         this->MinimizeBox = false;
         this->AcceptButton = this->btnEditOK;
         this->CancelButton = this->btnEditCancel;
+        this->ClientSize = System::Drawing::Size(310, 235);
 
         this->ResumeLayout(false);
         this->PerformLayout();
@@ -98,7 +123,7 @@ namespace ExpenseTrackerApp {
         try {
             if (String::IsNullOrWhiteSpace(textBoxEditDescription->Text) ||
                 String::IsNullOrWhiteSpace(textBoxEditAmount->Text)) {
-                MessageBox::Show(L"Çàïîëíèòå âñå ïîëÿ!", L"Îøèáêà",
+                MessageBox::Show(L"Ð—Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚Ðµ Ð²ÑÐµ Ð¿Ð¾Ð»Ñ!", L"ÐžÑˆÐ¸Ð±ÐºÐ°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 this->DialogResult = System::Windows::Forms::DialogResult::None;
                 return;
@@ -106,14 +131,14 @@ namespace ExpenseTrackerApp {
 
             double amt = Double::Parse(textBoxEditAmount->Text);
             if (amt <= 0) {
-                MessageBox::Show(L"Ñóììà äîëæíà áûòü > 0!", L"Îøèáêà",
+                MessageBox::Show(L"Ð¡ÑƒÐ¼Ð¼Ð° Ð´Ð¾Ð»Ð¶Ð½Ð° Ð±Ñ‹Ñ‚ÑŒ > 0!", L"ÐžÑˆÐ¸Ð±ÐºÐ°",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 this->DialogResult = System::Windows::Forms::DialogResult::None;
                 return;
             }
         }
         catch (FormatException^) {
-            MessageBox::Show(L"Ââåäèòå êîððåêòíóþ ñóììó!", L"Îøèáêà",
+            MessageBox::Show(L"Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½ÑƒÑŽ ÑÑƒÐ¼Ð¼Ñƒ!", L"ÐžÑˆÐ¸Ð±ÐºÐ°",
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
             this->DialogResult = System::Windows::Forms::DialogResult::None;
             return;
