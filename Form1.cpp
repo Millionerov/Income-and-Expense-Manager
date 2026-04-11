@@ -1,4 +1,4 @@
-﻿#include "Form1.h"
+#include "Form1.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -189,24 +189,21 @@ namespace ExpenseTrackerApp {
         this->listViewExpenses->ColumnClick += gcnew ColumnClickEventHandler(this, &Form1::listViewExpenses_ColumnClick);
         this->listViewExpenses->MouseDoubleClick += gcnew MouseEventHandler(this, &Form1::listViewExpenses_MouseDoubleClick);
 
-        this->labelTotal->Location = Point(12, 435);
-        this->labelTotal->Size = System::Drawing::Size(200, 23);
+        this->labelIncome->Location = Point(12, 435);
+        this->labelIncome->Size = System::Drawing::Size(180, 23);
 
-        this->labelIncome->Location = Point(12, 465);
-        this->labelIncome->Size = System::Drawing::Size(200, 23);
+        this->labelExpense->Location = Point(200, 435);
+        this->labelExpense->Size = System::Drawing::Size(180, 23);
 
-        this->labelExpense->Location = Point(220, 435);
-        this->labelExpense->Size = System::Drawing::Size(200, 23);
+        this->labelBalance->Location = Point(390, 435);
+        this->labelBalance->Size = System::Drawing::Size(180, 23);
 
-        this->labelBalance->Location = Point(220, 465);
-        this->labelBalance->Size = System::Drawing::Size(200, 23);
+        this->labelStats->Location = Point(12, 465);
+        this->labelStats->Size = System::Drawing::Size(400, 23);
 
-        this->labelStats->Location = Point(430, 435);
-        this->labelStats->Size = System::Drawing::Size(300, 50);
-
-        this->labelBudgetAlert->Location = Point(750, 435);
-        this->labelBudgetAlert->Size = System::Drawing::Size(200, 50);
-        this->labelBudgetAlert->ForeColor = Color::Red;
+        this->labelBudgetAlert->Location = Point(580, 435);
+        this->labelBudgetAlert->Size = System::Drawing::Size(380, 50);
+        this->labelBudgetAlert->ForeColor = Color::FromArgb(76, 175, 80);
         this->labelBudgetAlert->Visible = false;
 
         this->statusStrip->Location = Point(0, 500);
@@ -231,7 +228,6 @@ namespace ExpenseTrackerApp {
         this->Controls->Add(this->btnBudget);
         this->Controls->Add(this->btnQuickAdd);
         this->Controls->Add(this->listViewExpenses);
-        this->Controls->Add(this->labelTotal);
         this->Controls->Add(this->labelIncome);
         this->Controls->Add(this->labelExpense);
         this->Controls->Add(this->labelBalance);
@@ -300,7 +296,7 @@ namespace ExpenseTrackerApp {
                     currentMonthExpenses += t.getAmount();
                 else
                     monthIncome += t.getAmount();
-            }
+            }   
         }
         labelStats->Text = String::Format(L"За месяц: доход {0:F2} ₽, расход {1:F2} ₽", monthIncome, currentMonthExpenses);
         UpdateBudgetAlert();
@@ -320,7 +316,7 @@ namespace ExpenseTrackerApp {
                 labelBudgetAlert->ForeColor = Color::Orange;
             }
             else {
-                labelBudgetAlert->ForeColor = Color::Yellow;
+                labelBudgetAlert->ForeColor = Color::FromArgb(76, 175, 80);
             }
         }
         else {
