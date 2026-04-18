@@ -3,6 +3,7 @@
 #using <System.Windows.Forms.dll>
 #using <System.Drawing.dll>
 #using <System.Data.dll>
+#using <System.dll>
 
 #include "ExpenseManager.h"
 #include "EditForm.h"
@@ -10,6 +11,7 @@
 #include "BudgetForm.h"
 #include <msclr/marshal_cppstd.h>
 #include <ctime>
+#include <vector>
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -36,6 +38,8 @@ namespace ExpenseTrackerApp {
         Button^ btnReport;
         Button^ btnBudget;
         Button^ btnQuickAdd;
+        Button^ btnExport;
+        TextBox^ textBoxSearch;
         ListView^ listViewExpenses;
         Label^ labelTotal;
         Label^ labelIncome;
@@ -43,8 +47,10 @@ namespace ExpenseTrackerApp {
         Label^ labelBalance;
         Label^ labelStats;
         Label^ labelBudgetAlert;
+        Label^ labelSearch;
         StatusStrip^ statusStrip;
         ToolStripStatusLabel^ statusLabel;
+        ToolStripProgressBar^ progressBar;
         Timer^ alertTimer;
 
         bool darkThemeEnabled;
@@ -67,6 +73,8 @@ namespace ExpenseTrackerApp {
         void btnReport_Click(Object^ sender, EventArgs^ e);
         void btnBudget_Click(Object^ sender, EventArgs^ e);
         void btnQuickAdd_Click(Object^ sender, EventArgs^ e);
+        void btnExport_Click(Object^ sender, EventArgs^ e);
+        void textBoxSearch_TextChanged(Object^ sender, EventArgs^ e);
         void comboBoxFilter_SelectedIndexChanged(Object^ sender, EventArgs^ e);
         void comboBoxFilterType_SelectedIndexChanged(Object^ sender, EventArgs^ e);
         void listViewExpenses_SelectedIndexChanged(Object^ sender, EventArgs^ e);
@@ -75,9 +83,11 @@ namespace ExpenseTrackerApp {
         void ApplyTheme(bool dark);
         void alertTimer_Tick(Object^ sender, EventArgs^ e);
         time_t DateTimeToTimeT(DateTime dt);
+        void UpdateStatusBar();
         int selectedTransactionId;
         String^ currentFilterCategory;
         String^ currentFilterType;
+        String^ currentSearchTerm;
         int lastSortedColumn;
         bool sortAscending;
 
