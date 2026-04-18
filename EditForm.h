@@ -2,6 +2,7 @@
 
 #using <System.Windows.Forms.dll>
 #using <System.Drawing.dll>
+#using <System.dll>
 
 #include "Expense.h"
 #include <msclr/marshal_cppstd.h>
@@ -23,6 +24,7 @@ namespace ExpenseTrackerApp {
         Label^ labelAmount;
         Label^ labelCat;
         Label^ labelType;
+        Label^ labelHint;
 
         void InitializeComponent();
         void btnEditOK_Click(Object^ sender, EventArgs^ e);
