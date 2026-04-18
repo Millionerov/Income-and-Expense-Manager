@@ -21,7 +21,7 @@ A powerful desktop application for tracking personal finances with dark/light th
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/yourusername/Income-and-Expense-Manager.git
+git clone https://github.com/Millionerov/Income-and-Expense-Manager.git
 cd Income-and-Expense-Manager
 # Open in Visual Studio, add reference to System.Windows.Forms.DataVisualization
 # Build and run (F5)
@@ -29,5 +29,3 @@ cd Income-and-Expense-Manager
 transactions.txt - Stores all transactions
 
 budget.txt - Stores monthly budget
-
-📝 License
