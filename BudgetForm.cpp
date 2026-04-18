@@ -1,13 +1,11 @@
-﻿#using <System.dll>
-
 #include "BudgetForm.h"
 
 namespace ExpenseTrackerApp {
     BudgetForm::BudgetForm(double currentBudget) {
         form = gcnew Form();
         form->Text = L"Установить бюджет";
-        form->Width = 350;
-        form->Height = 160;
+        form->Width = 380;
+        form->Height = 180;
         form->BackColor = Color::FromArgb(32, 32, 32);
         form->ForeColor = Color::White;
         form->StartPosition = FormStartPosition::CenterParent;
@@ -23,15 +21,22 @@ namespace ExpenseTrackerApp {
 
         textBoxBudget = gcnew TextBox();
         textBoxBudget->Location = Point(165, 20);
-        textBoxBudget->Width = 150;
+        textBoxBudget->Width = 180;
         textBoxBudget->Text = currentBudget.ToString();
         textBoxBudget->BackColor = Color::FromArgb(45, 45, 48);
         textBoxBudget->ForeColor = Color::White;
         textBoxBudget->BorderStyle = BorderStyle::FixedSingle;
 
+        labelInfo = gcnew Label();
+        labelInfo->Text = L"Установите бюджет для отслеживания месячных расходов";
+        labelInfo->Location = Point(15, 55);
+        labelInfo->Size = System::Drawing::Size(340, 25);
+        labelInfo->ForeColor = Color::Gray;
+        labelInfo->Font = gcnew Drawing::Font(L"Segoe UI", 8, FontStyle::Italic);
+
         btnOK = gcnew Button();
         btnOK->Text = L"OK";
-        btnOK->Location = Point(80, 65);
+        btnOK->Location = Point(90, 95);
         btnOK->Size = System::Drawing::Size(90, 32);
         btnOK->FlatStyle = FlatStyle::Flat;
         btnOK->BackColor = Color::FromArgb(70, 70, 75);
@@ -40,7 +45,7 @@ namespace ExpenseTrackerApp {
 
         btnCancel = gcnew Button();
         btnCancel->Text = L"Отмена";
-        btnCancel->Location = Point(180, 65);
+        btnCancel->Location = Point(195, 95);
         btnCancel->Size = System::Drawing::Size(90, 32);
         btnCancel->FlatStyle = FlatStyle::Flat;
         btnCancel->BackColor = Color::FromArgb(70, 70, 75);
@@ -49,6 +54,7 @@ namespace ExpenseTrackerApp {
 
         form->Controls->Add(labelBudget);
         form->Controls->Add(textBoxBudget);
+        form->Controls->Add(labelInfo);
         form->Controls->Add(btnOK);
         form->Controls->Add(btnCancel);
 
