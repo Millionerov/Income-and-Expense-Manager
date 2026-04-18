@@ -1,4 +1,3 @@
-﻿
 #pragma once
 #ifndef EXPENSE_MANAGER_H
 #define EXPENSE_MANAGER_H
@@ -10,6 +9,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -115,6 +115,15 @@ public:
 
     vector<Expense>& getTransactions() { return transactions; }
 
+    Expense* getTransactionById(int id) {
+        auto it = find_if(transactions.begin(), transactions.end(),
+            [id](const Expense& t) { return t.getId() == id; });
+        if (it != transactions.end()) {
+            return &(*it);
+        }
+        return nullptr;
+    }
+
     void deleteTransaction(int id) {
         auto it = find_if(transactions.begin(), transactions.end(),
             [id](const Expense& t) { return t.getId() == id; });
@@ -164,11 +173,29 @@ public:
         return total;
     }
 
+    double getMonthTotal(TransactionType type, int month, int year) {
+        double total = 0;
+        for (const auto& t : transactions) {
+            if (t.getType() != type) continue;
+            struct tm tm_t;
+            time_t t_date = t.getDate();
+            localtime_s(&tm_t, &t_date);
+            if (tm_t.tm_mon == month && tm_t.tm_year == year) {
+                total += t.getAmount();
+            }
+        }
+        return total;
+    }
+
+    int getTransactionCount() {
+        return (int)transactions.size();
+    }
+
     void saveToFile() {
         ofstream file(filename);
         if (!file.is_open()) return;
         for (const auto& t : transactions) {
-            file << t.getId() << "|" << t.getDescription() << "|" << t.getAmount() << "|"
+            file << t.getId() << "|" << t.getDescription() << "|" << fixed << setprecision(2) << t.getAmount() << "|"
                 << categoryToString(t.getCategory()) << "|" << typeToString(t.getType()) << "|"
                 << t.getDate() << "|" << t.getCreatedTime() << endl;
         }
