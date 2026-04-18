@@ -1,59 +1,33 @@
 # 💰 Income-and-Expense-Manager
 
-[![Platform](https://img.shields.io/badge/platform-Windows-blue)](https://github.com/d0xmee/Income-and-Expense-Manager)
-[![Language](https://img.shields.io/badge/language-C%2B%2B%2FCLI-green)](https://docs.microsoft.com/en-us/cpp/dotnet/dotnet-programming-with-cpp-cli)
-[![Framework](https://img.shields.io/badge/framework-.NET%20Windows%20Forms-purple)](https://docs.microsoft.com/en-us/dotnet/desktop/winforms/)
-[![License](https://img.shields.io/badge/license-MIT-yellow)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/platform-Windows-blue)]()
+[![Language](https://img.shields.io/badge/language-C%2B%2B%2FCLI-green)]()
+[![Framework](https://img.shields.io/badge/framework-.NET%20Windows%20Forms-purple)]()
+[![License](https://img.shields.io/badge/license-MIT-yellow)]()
 
-A powerful and elegant desktop application for tracking personal finances. Monitor income, expenses, and financial health with an intuitive interface, dark/light theme support, and comprehensive filtering capabilities.
-
-![Income and Expense Manager Screenshot](screenshot.png)
+A powerful desktop application for tracking personal finances with dark/light theme, charts, and CSV export.
 
 ## ✨ Features
 
-- **Complete Transaction Management**
-  - Add, edit, and delete income/expense records
-  - Categorize transactions (Food, Transport, Entertainment, Health, Shopping, Other)
-  - Set custom dates for each transaction
-  - Automatic timestamp tracking for created records
+- **Transactions** - Add, edit, delete income/expense records
+- **Categories** - Food, Transport, Entertainment, Health, Shopping, Other
+- **Budget** - Set monthly budget with visual indicators
+- **Statistics** - Pie chart, bar chart, line chart
+- **Filtering** - By category, type, search by description
+- **Export** - CSV export for transactions and statistics
+- **Themes** - Dark/Light theme toggle
+- **Auto-save** - Data persists in text files
 
-- **Smart Financial Overview**
-  - Real-time balance calculation (Income - Expenses)
-  - Color-coded transactions (Green for Income, Red for Expenses)
-  - Total income and expense summaries
-  - Category-wise statistical breakdown
+## 🚀 Quick Start
 
-- **Advanced Filtering & Sorting**
-  - Filter by category
-  - Filter by transaction type (Income/Expense)
-  - Sort any column by clicking headers
-  - Combined filter application
+```bash
+git clone https://github.com/yourusername/Income-and-Expense-Manager.git
+cd Income-and-Expense-Manager
+# Open in Visual Studio, add reference to System.Windows.Forms.DataVisualization
+# Build and run (F5)
+📁 Data Files
+transactions.txt - Stores all transactions
 
-- **User-Friendly Interface**
-  - Clean, modern Windows Forms design
-  - Dark/Light theme toggle
-  - Double-click to edit any transaction
-  - Status bar with operation feedback
-  - Input validation
+budget.txt - Stores monthly budget
 
-- **Data Persistence**
-  - Automatic saving to `transactions.txt`
-  - Loads previous sessions automatically
-  - Robust error handling
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Windows operating system
-- Visual Studio 2019 or later with:
-  - Desktop development with C++ workload
-  - .NET desktop development workload
-  - C++/CLI support
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/millionerov/Income-and-Expense-Manager.git
-   cd Income-and-Expense-Manager
+📝 License
